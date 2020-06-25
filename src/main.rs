@@ -55,13 +55,26 @@ impl Widget for Win {
     // Create the widgets.
     fn view(relm: &Relm<Self>, model: Self::Model) -> Self {
         // GTK+ widgets are used normally within a `Widget`.
-        let vbox = gtk::Box::new(Vertical, 0);
-        let label = Label::new(Some(&model.greeting));
-        vbox.add(&label);
+        // First we get the file content.
+        let glade_src = include_str!("dashboard.glade");
+        // Then we call the Builder call.
+        let builder = gtk::Builder::new_from_string(glade_src);
 
-        let window = Window::new(WindowType::Toplevel);
-        window.set_default_size(800, 1200);
-        window.add(&vbox);
+        let label: gtk::Label = builder.get_object("label1").unwrap();
+        label.set_text(&model.greeting);
+
+        let canvas: gtk::DrawingArea = builder.get_object("canvas1").unwrap();
+        canvas.connect_draw(move |_, context| {
+            context.set_source_rgb(0.2, 0.4, 0.0);
+            context.paint();
+
+            context.set_font_size(60.0);
+            context.set_source_rgb(0.0, 0.0, 0.0);
+            context.move_to(100.0, 100.0);
+            context.show_text("Hello!!!");
+            Inhibit(false)
+        });
+        let window: gtk::Window = builder.get_object("window1").unwrap();
 
         // Connect the signal `delete_event` to send the `Quit` message.
         connect!(
