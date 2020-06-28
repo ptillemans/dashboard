@@ -66,6 +66,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "dashboard"
 version = "0.1.0"
 dependencies = [
+ "cairo-rs 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "gtk 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "relm 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "relm-derive 0.19.1 (registry+https://github.com/rust-lang/crates.io-index)",
